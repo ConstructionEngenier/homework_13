@@ -11,10 +11,18 @@ def data_load(link):
 def get_tags(data):
     results = set()
 
-    for record in data:
-        content = record['content']
+    for post in data:
+        content = post['content']
         words = content.split()
         for word in words:
             if word.startswith('#'):
                 results.add(word[1:])
+    return results
+
+
+def get_posts_by_tag(data, tag):
+    results = []
+    for post in data:
+        if f'#{tag}' in post['content']:
+            results.append(post)
     return results
