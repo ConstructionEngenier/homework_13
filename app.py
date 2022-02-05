@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, send_from_directory
-# from functions import ...
+from functions import data_load, get_tags
 
 POST_PATH = "posts.json"
 UPLOAD_FOLDER = "uploads/images"
@@ -9,7 +9,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def page_index():
-    pass
+    data = data_load('posts.json')
+    tags = get_tags(data)
+
+    return render_template("index.html", tags=tags)
 
 
 @app.route("/tag")
@@ -27,5 +30,6 @@ def static_dir(path):
     return send_from_directory("uploads", path)
 
 
-app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
 
