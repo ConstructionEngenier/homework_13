@@ -27,7 +27,23 @@ def page_tag():
 
 @app.route("/post", methods=["GET", "POST"])
 def page_post_create():
-    pass
+    if request.method == 'GET':
+        return render_template('post_form.html')
+    content = request.form.get('content')
+    picture = request.files.get('picture')
+    if not content or not picture:
+        abort(400)
+
+    path = f'{UPLOAD_FOLDER}/{picture.filename}'
+    post = {
+        'content': content,
+        'pic': f'/{path}'
+    }
+
+    picture.save(path)
+    add_post(POST_PATH, post)
+
+    return render_template('post_uploaded.html', post=post)
 
 
 @app.route("/uploads/<path:path>")

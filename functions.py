@@ -3,7 +3,7 @@ import pprint
 
 
 def data_load(link):
-    with open(link, "r", encoding='utf-8') as fp:
+    with open(link, 'r', encoding='utf-8') as fp:
         data = json.load(fp)
     return data
 
@@ -26,3 +26,10 @@ def get_posts_by_tag(data, tag):
         if f'#{tag}' in post['content']:
             results.append(post)
     return results
+
+
+def add_post(link, post):
+    data = data_load(link)
+    data.append(post)
+    with open(link, 'w', encoding='utf-8') as fp:
+        json.dump(data, fp, ensure_ascii=False, indent=4, sort_keys=True)
