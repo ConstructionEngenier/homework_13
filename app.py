@@ -20,7 +20,7 @@ def page_tag():
     tag = request.args.get("tag")
     data = data_load(POST_PATH)
     if not tag:
-        abort(400)
+        return "Вы забыли указать тэг"
     posts = get_posts_by_tag(data, tag)
     return render_template("post_by_tag.html", tag=tag, posts=posts)
 
